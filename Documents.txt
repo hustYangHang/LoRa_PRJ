@@ -1,0 +1,30 @@
+SF: 6 7 8 9 10 11 12
+Bandwidth(kHz): 7.8 10.4 15.6 20.8 31.2 41.7 62.5 125 250 500
+CR: 4/5 4/6 4/7 4/8
+IH: True False
+DE: True False
+CRC: True(uplink) False(downlink)
+PL: 0-255Bytes
+Spre: 6-65535 symbols
+
+LoRa PHY packet structure:
+
+Preamble 6-65535 symbols(Spl):
+Spl = 8 + max{4CR[(8PL-4SF+28+16CRC-20IH)/(4(SF-2DE))],0}
+where:
+PL:payload in Bytes
+IH:0 1 indicate explicit or implicit header respectively
+CRC:0 1 indicate absence or presence as required
+DE: if Tsym>16ms:1 or 0; Tsym = 2^SF/BW
+
+Mandatory Preamble: 4.25 symbols
+
+If Implicit Header disabled:(CR = 4/8)
+PHY header:1 Byte
+PHY header CRC:2 Bytes
+
+Payload 0-255 Bytes:(CR is arbitory)
+
+CRC:
+If uplink: CRC 2 Bytes 
+If downlink: CRC 0 Byte
